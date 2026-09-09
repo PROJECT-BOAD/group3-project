@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professional Account System</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg: #f1f5f9;
+      --surface: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --error: #ef4444;
+      --success: #10b981;
+      --radius: 12px;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+
+    body {
+      background-color: var(--bg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-main);
+    }
+
+    .app-container {
+      background: var(--surface);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px 30px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .view {
+      display: none;
+      animation: fadeIn 0.4s ease forwards;
+    }
+    .view.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 { font-size: 24px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    p.subtitle { text-align: center; color: var(--text-muted); font-size: 14px; margin-bottom: 30px; }
+
+    /* --- FORMS & INPUTS --- */
+    .input-group { margin-bottom: 20px; position: relative; }
+    .input-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
+    
+    .input-wrapper { position: relative; display: flex; align-items: center; }
+    .input-wrapper svg { position: absolute; left: 12px; color: var(--text-muted); width: 18px; height: 18px; }
+    
+    input {
+      width: 100%;
+      padding: 12px 12px 12px 40px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+    input:focus {
+      background: var(--surface);
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+    }
+    input.input-error { border-color: var(--error); }
+
+    .toggle-password {
+      position: absolute;
+      right: 12px;
+      left: auto !important;
+      cursor: pointer;
+      padding: 5px;
+    }
+    .toggle-password:hover { color: var(--primary); }
+
+    .error-text { color: var(--error); font-size: 12px; margin-top: 5px; display: none; }
+
+    button.btn-primary {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    button.btn-primary:hover { background: var(--primary-hover); }
+    button.btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
+
+    button.btn-danger {
+      width: 100%; padding: 12px; background: white; color: var(--error);
+      border: 1px solid var(--error); border-radius: 8px; cursor: pointer;
+      font-weight: 600; transition: all 0.2s;
+    }
+    button.btn-danger:hover { background: #fef2f2; }
+
+    .link-text { text-align: center; margin-top: 20px; font-size: 14px; color: var(--text-muted); }
+    .link-text a { color: var(--primary); font-weight: 600; text-decoration: none; cursor: pointer; }
+    .link-text a:hover { text-decoration: underline; }
+
+    .spinner {
+      border: 3px solid rgba(255,255,255,0.3); border-radius: 50%;
+      border-top: 3px solid white; width: 20px; height: 20px;
+      animation: spin 1s linear infinite; display: none; margin-left: 10px;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading .spinner { display: inline-block; }
+    .loading .btn-text { display: none; }
+
+    /* --- PROFILE UI --- */
+    .profile-card { text-align: center; margin-bottom: 30px; }
+    .avatar {
+      width: 80px; height: 80px; border-radius: 50%; background: var(--primary);
+      color: white; font-size: 32px; font-weight: bold; display: flex;
+      justify-content: center; align-items: center; margin: 0 auto 15px;
+    }
+    .profile-details { background: #f8fafc; border-radius: 8px; padding: 20px; text-align: left; margin-bottom: 20px; border: 1px solid var(--border);}
+    .profile-details p { margin: 8px 0; font-size: 14px; color: var(--text-muted); }
+    .profile-details span { font-weight: 600; color: var(--text-main); float: right;}
+
+    /* --- TOAST NOTIFICATION --- */
+    .toast {
+      position: fixed; top: 20px; right: 20px; padding: 15px 25px;
+      border-radius: 8px; color: white; font-weight: 500; font-size: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15); transform: translateX(120%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); z-index: 1000;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--error); }
+  </style>
+</head>
+<body>
+
+    
+  <div id="toast" class="toast">Message here</div>
+
+  <div class="app-container">
+    
+    <!-- 1. LOGIN VIEW -->
+    <div id="view-login" class="view active">
+      <h2>Welcome back</h2>
+      <p class="subtitle">Please enter your details to sign in.</p>
+      
+      <form id="form-login">
+        <div class="input-group">
+          <label>Email Address</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="login-email" placeholder="pisey@example.com">
+          </div>
+          <div class="error-text" id="err-login-email"></div>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="login-password" placeholder="••••••••">
+            <svg class="toggle-password" onclick="togglePassword('login-password')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+          <div class="error-text" id="err-login-password"></div>
+        </div>
+
+        <button type="submit" id="btn-login" class="btn-primary">
+          <span class="btn-text">Sign In</span>
+          <div class="spinner"></div>
+        </button>
+      </form>
+      
+      <div class="link-text">
+        Don't have an account? <a onclick="app.navigate('register')">Create one</a>
+      </div>
+    </div>
+
+    <!-- 2. REGISTER VIEW -->
+    <div id="view-register" class="view">
+      <h2>Create an Account</h2>
+      <p class="subtitle">Join us to manage your workspace.</p>
+
+      <form id="form-register">
+        <div class="input-group">
+          <label>Full Name</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <input type="text" id="reg-name" value="Pisey">
+          </div>
+          <div class="error-text" id="err-reg-name"></div>
+        </div>
+
+        <div class="input-group">
+          <label>Email Address</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            <input type="email" id="reg-email" placeholder="pisey@example.com">
+          </div>
+          <div class="error-text" id="err-reg-email"></div>
+        </div>
+
+        <div class="input-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+            <input type="password" id="reg-password" placeholder="Min. 6 characters">
+            <svg class="toggle-password" onclick="togglePassword('reg-password')" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
+          <div class="error-text" id="err-reg-password"></div>
+        </div>
+
+        <button type="submit" id="btn-register" class="btn-primary">
+          <span class="btn-text">Register Account</span>
+          <div class="spinner"></div>
+        </button>
+      </form>
+
+      <div class="link-text">
+        Already have an account? <a onclick="app.navigate('login')">Sign in</a>
+      </div>
+    </div>
+    <div id="view-profile" class="view">
+      <div class="profile-card">
+        <div class="avatar" id="profile-avatar">P</div>
+        <h2 id="profile-name">Pisey</h2>
+        <p class="subtitle">Account active and verified</p>
+      </div>
+
+      <div class="profile-details">
+        <p>Email Address <span id="profile-email">pisey@example.com</span></p>
+        <p>Account Status <span style="color: var(--success);">Online</span></p>
+      </div>
+
+      <button onclick="app.logout()" class="btn-danger">Sign Out</button>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePassword(inputId) {
+      const input = document.getElementById(inputId);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    // --- MAIN APPLICATION LOGIC ---
+    const app = {
+      // Initialize app state
+      init() {
+        this.bindEvents();
+        this.checkAuth();
+      },
+
+      // Bind form submissions
+      bindEvents() {
+        document.getElementById('form-login').addEventListener('submit', (e) => this.handleLogin(e));
+        document.getElementById('form-register').addEventListener('submit', (e) => this.handleRegister(e));
+      },
+
+      // Navigation / Routing
+      navigate(viewName) {
+        this.clearErrors();
+        document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+        document.getElementById(`view-${viewName}`).classList.add('active');
+      },
+
+      // Toast Notifications
+      showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        toast.textContent = message;
+        toast.className = `toast show ${type}`;
+        setTimeout(() => toast.classList.remove('show'), 3000);
+      },
+
+      // Inline Error Handling
+      showError(inputId, message) {
+        const input = document.getElementById(inputId);
+        const errorText = document.getElementById(`err-${inputId}`);
+        input.classList.add('input-error');
+        errorText.textContent = message;
+        errorText.style.display = 'block';
+      },
+
+      clearErrors() {
+        document.querySelectorAll('input').forEach(i => i.classList.remove('input-error'));
+        document.querySelectorAll('.error-text').forEach(e => e.style.display = 'none');
+      },
+
+      // Simulated API Delay
+      async simulateNetworkRequest(btnId) {
+        const btn = document.getElementById(btnId);
+        btn.classList.add('loading');
+        btn.disabled = true;
+        return new Promise(resolve => setTimeout(() => {
+          btn.classList.remove('loading');
+          btn.disabled = false;
+          resolve();
+        }, 1200)); // 1.2 seconds delay
+      },
+
+      // Auth Check on Load
+      checkAuth() {
+        const session = JSON.parse(localStorage.getItem('userSession'));
+        if (session) {
+          this.loadProfile(session);
+          this.navigate('profile');
+        } else {
+          this.navigate('login');
+        }
+      },
+
+      // --- LOGIC: REGISTER ---
+      async handleRegister(e) {
+        e.preventDefault();
+        this.clearErrors();
+        let isValid = true;
+
+        const name = document.getElementById('reg-name').value.trim();
+        const email = document.getElementById('reg-email').value.trim();
+        const pass = document.getElementById('reg-password').value;
+
+        if (!name) { this.showError('reg-name', 'Name is required'); isValid = false; }
+        if (!email) { this.showError('reg-email', 'Valid email required'); isValid = false; }
+        if (pass.length < 6) { this.showError('reg-password', 'Minimum 6 characters'); isValid = false; }
+
+        if (!isValid) return;
+
+        await this.simulateNetworkRequest('btn-register');
+
+        const user = { name, email, pass };
+        localStorage.setItem('userDatabase', JSON.stringify(user));
+        localStorage.setItem('userSession', JSON.stringify(user));
+        
+        this.showToast('Account created successfully!');
+        this.loadProfile(user);
+        this.navigate('profile');
+        e.target.reset(); // Clear form
+      },
+
+      async handleLogin(e) {
+        e.preventDefault();
+        this.clearErrors();
+        let isValid = true;
+
+        const email = document.getElementById('login-email').value.trim();
+        const pass = document.getElementById('login-password').value;
+
+        if (!email) { this.showError('login-email', 'Email required'); isValid = false; }
+        if (!pass) { this.showError('login-password', 'Password required'); isValid = false; }
+
+        if (!isValid) return;
+
+        await this.simulateNetworkRequest('btn-login');
+
+        const dbUser = JSON.parse(localStorage.getItem('userDatabase'));
+
+        // Validate against registered user, or fallback demo account
+        if (dbUser && dbUser.email === email && dbUser.pass === pass) {
+          localStorage.setItem('userSession', JSON.stringify(dbUser));
+          this.showToast('Welcome back!');
+          this.loadProfile(dbUser);
+          this.navigate('profile');
+        } 
+        else if (email === "pisey@example.com" && pass === "123456") {
+          const demoUser = { name: "Pisey", email };
+          localStorage.setItem('userSession', JSON.stringify(demoUser));
+          this.showToast('Demo login successful!');
+          this.loadProfile(demoUser);
+          this.navigate('profile');
+        } 
+        else {
+          this.showError('login-email', 'Invalid credentials');
+          this.showError('login-password', 'Invalid credentials');
+          this.showToast('Authentication failed', 'error');
+        }
+      },
+
+      loadProfile(user) {
+        document.getElementById('profile-name').textContent = user.name;
+        document.getElementById('profile-email').textContent = user.email;
+        document.getElementById('profile-avatar').textContent = user.name.charAt(0).toUpperCase();
+      },
+
+      async logout() {
+        localStorage.removeItem('userSession');
+        this.showToast('Logged out securely');
+        this.navigate('login');
+      }
+    };
+    document.addEventListener('DOMContentLoaded', () => app.init());
+  </script>
+</body>
+</html>
