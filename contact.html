@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - Home Sale</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+
+        .contact-hero {
+            background: linear-gradient(135deg, #0d6efd 0%, #0b5ed7 100%);
+            color: white;
+        }
+
+        .info-card,
+        .contact-form {
+            border: 0;
+            border-radius: 1rem;
+            box-shadow: 0 0.7rem 1.8rem rgba(0, 0, 0, 0.08);
+        }
+
+        .icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="./Home-page.html">🏠 Home Sale</a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-end mt-2 mt-lg-0" id="navbarContent">
+                <div class="d-flex flex-wrap gap-2">
+                    <a href="./Home-page.html" class="btn btn-light">Home</a>
+                    <a href="./Account.html" class="btn btn-primary">Account</a>
+                    <a href="#" class="btn btn-success">Sign In</a>
+                    <a href="#" class="btn btn-danger">Sign Out</a>
+                    <a href="./contact.html" class="btn btn-warning active shadow-sm">Contact</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section class="contact-hero py-5">
+        <div class="container text-center">
+            <h1 class="fw-bold mb-3">Contact Us</h1>
+            <p class="mb-0 fs-5">We’re here to help you find the right home or answer your questions.</p>
+        </div>
+    </section>
+
+    <main class="container py-5">
+        <div class="row g-4 align-items-start">
+            <div class="col-lg-4">
+                <div class="card info-card h-100 p-4">
+                    <h3 class="fw-bold mb-4">Get in touch</h3>
+
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="icon-box bg-primary-subtle text-primary">
+                            <i class="bi bi-geo-alt-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Office Address</h6>
+                            <p class="mb-0 text-muted">#12, Street 200, Boeng Keng Kang, Phnom Penh, Cambodia</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="icon-box bg-success-subtle text-success">
+                            <i class="bi bi-telephone-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Call Us</h6>
+                            <p class="mb-0 text-muted">+855 12 345 678</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3 mb-4">
+                        <div class="icon-box bg-warning-subtle text-warning">
+                            <i class="bi bi-envelope-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Email</h6>
+                            <p class="mb-0 text-muted">hello@homesale.com</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-start gap-3">
+                        <div class="icon-box bg-danger-subtle text-danger">
+                            <i class="bi bi-clock-fill"></i>
+                        </div>
+                        <div>
+                            <h6 class="fw-bold mb-1">Office Hours</h6>
+                            <p class="mb-0 text-muted">Mon - Sat: 8:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8">
+                <div class="card contact-form p-4 p-md-5">
+                    <h3 class="fw-bold mb-4">Send a Message</h3>
+
+                    <form>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstName" placeholder="Your first name">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="lastName" placeholder="Your last name">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" placeholder="+855 ...">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" placeholder="How can we help?">
+                            </div>
+
+                            <div class="col-12">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="5" placeholder="Write your message here..."></textarea>
+                            </div>
+
+                            <div class="col-12 mt-3">
+                                <button type="submit" class="btn btn-primary btn-lg px-4">Send Message</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4 mt-2">
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="text-primary fs-2 mb-3"><i class="bi bi-house-heart"></i></div>
+                    <h5 class="fw-bold">Property Support</h5>
+                    <p class="text-muted mb-0">Need help finding the perfect property? Our team is ready to guide you.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="text-success fs-2 mb-3"><i class="bi bi-people-fill"></i></div>
+                    <h5 class="fw-bold">Trusted Agents</h5>
+                    <p class="text-muted mb-0">Talk with experienced agents who understand your needs and budget.</p>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card border-0 shadow-sm h-100 p-4 text-center">
+                    <div class="text-warning fs-2 mb-3"><i class="bi bi-check-circle-fill"></i></div>
+                    <h5 class="fw-bold">Fast Response</h5>
+                    <p class="text-muted mb-0">We usually respond within 1 business day for all inquiries.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">© 2026 Home Sale. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
