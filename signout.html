@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Out | Home Sale</title>
+
+    <!-- Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-light">
+
+    <!-- ================= NAVBAR ================= -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="./index.html">🏠 Home Sale</a>
+
+            <div class="d-flex gap-2">
+                <a href="./index.html" class="btn btn-outline-light">Home</a>
+                <a href="./Account.html" class="btn btn-primary">Account</a>
+                <a href="./contact.html" class="btn btn-warning">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= SIGN OUT ================= -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-5">
+                    <div class="card shadow border-0">
+                        <div class="card-body p-4 p-md-5 text-center">
+
+                            <div class="mb-4">
+                                <div class="rounded-circle bg-danger bg-opacity-10 d-inline-flex align-items-center justify-content-center"
+                                    style="width: 86px; height: 86px; font-size: 2rem;">
+                                    👋
+                                </div>
+                            </div>
+
+                            <h2 class="fw-bold mb-3">Sign Out</h2>
+                            <p class="text-muted mb-4">
+                                Are you sure you want to sign out of your Home Sale account?
+                            </p>
+
+                            <div class="d-grid gap-2">
+                                <button id="signOutBtn" type="button" class="btn btn-danger btn-lg py-2">
+                                    Sign Out
+                                </button>
+
+                                <a href="./index.html" class="btn btn-outline-secondary btn-lg py-2">
+                                    Stay Signed In
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-dark text-white text-center py-4 fixed-bottom">
+        <p class="mb-0">© 2026 Home Sale | All Rights Reserved</p>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        const signOutButton = document.getElementById('signOutBtn');
+
+        signOutButton.addEventListener('click', function () {
+            localStorage.removeItem('userSession');
+            localStorage.removeItem('userToken');
+
+            const cardBody = this.closest('.card-body');
+            const title = cardBody.querySelector('h2');
+            const message = cardBody.querySelector('p');
+            const action = cardBody.querySelector('a');
+
+            title.textContent = 'You have been signed out';
+            message.textContent = 'Thank you for visiting Home Sale. You can sign in again anytime.';
+            this.remove();
+
+            if (action) {
+                action.textContent = 'Back to Home';
+                action.href = './index.html';
+            }
+
+            setTimeout(() => {
+                window.location.href = './signin.html';
+            }, 1500);
+        });
+    </script>
+
+</body>
+
+</html>
